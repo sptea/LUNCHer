@@ -1,0 +1,49 @@
+import { Constants } from "./constants";
+
+export default class Person {
+  name: string;
+  team: string;
+  unmatchedCount: number;
+  private participation: string;
+  history: { date: string; team: string }[];
+
+  constructor(name: string, participation: string, team: string) {
+    this.name = this.deleteBlank(name);
+    this.participation = participation;
+    this.team = team;
+    this.history = [];
+  }
+
+  private deleteBlank(origin: string): string {
+    return origin.replace(/\s+/g, "");
+  }
+
+  getPastMatchedCount(targetPerson: Person): number {
+    let count = 0;
+
+    targetPerson.history.forEach(h => {
+      if (this.history.some(th => th.date === h.date && th.team === h.team))
+        count++;
+    });
+    return count;
+  }
+
+  isActive(): boolean {
+    return Constants.activeStringList.indexOf(this.participation) >= 0;
+  }
+
+  compareName(target: string): boolean {
+    return this.name === this.deleteBlank(target);
+  }
+
+  copy(): Person {
+    const copiedPerson: Person = new Person(
+      this.name,
+      this.participation,
+      this.team
+    );
+    copiedPerson.unmatchedCount = this.unmatchedCount;
+    copiedPerson.history = this.history;
+    return copiedPerson;
+  }
+}

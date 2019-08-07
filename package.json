@@ -1,0 +1,28 @@
+{
+  "name": "c_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.ts",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "ava": "^2.2.0",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "ava --verbose"
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}
