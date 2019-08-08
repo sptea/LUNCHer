@@ -7,3 +7,9 @@ export module Constants {
 
   export const activeStringList = ["〇"];
 }
+
+export module Util {
+  export function deleteBlank(origin: string): string {
+    return origin.replace(/\s+/g, "");
+  }
+}

@@ -1,6 +1,6 @@
 import Person from "./person";
 import PastMatch from "./pastMatch";
-import { Constants } from "./constants";
+import { Constants } from "./util";
 
 interface AppSetting {
   masterSheet: {
@@ -65,8 +65,10 @@ export default class SheetRepository {
     );
 
     let personList: Person[] = [];
-    nameList.forEach((n: string, i: number) =>
-      personList.push(new Person(n, participationList[i], teamList[i]))
+    nameList.forEach((name: string, index: number) =>
+      personList.push(
+        new Person(name, participationList[index], teamList[index])
+      )
     );
 
     return personList;
@@ -78,16 +80,16 @@ export default class SheetRepository {
       this.appSetting.pastMatchSheet.colHead.unmatched
     );
 
-    const groupList = [];
+    const teamList = [];
     this.appSetting.pastMatchSheet.colHead.team.forEach(teamColHead => {
       const col = this.getColUntilBlank(sheet, teamColHead);
 
       for (let i = 0, l = col.length; i < l; i += 2) {
-        if (groupList.length <= i / 2) groupList.push([]);
-        groupList[i / 2].push(...col.slice(i, i + 2));
+        if (teamList.length <= i / 2) teamList.push([]);
+        teamList[i / 2].push(...col.slice(i, i + 2));
       }
     });
-    return new PastMatch(sheet.getName(), groupList, unmatchedList);
+    return new PastMatch(sheet.getName(), teamList, unmatchedList);
   }
 
   getPastMatchList() {

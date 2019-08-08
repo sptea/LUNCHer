@@ -6,15 +6,15 @@ import People from "./people";
 export default class CurrentMatch {
   private people: People;
 
-  private devidedPersonList: Person[][];
-  private minNumber: number;
+  private clusterList: Person[][];
+  private minClusterNumber: number;
 
   constructor(people: People) {
     this.people = people;
 
-    this.devidedPersonList = this.devideByteam();
-    this.minNumber = Math.min(
-      ...this.devidedPersonList.map(personList => personList.length)
+    this.clusterList = this.createClusterByteam();
+    this.minClusterNumber = Math.min(
+      ...this.clusterList.map(personList => personList.length)
     );
   }
 
@@ -22,49 +22,49 @@ export default class CurrentMatch {
     return this.people.personList.filter(person => person.isActive());
   }
 
-  private distinct(array) {
+  private distinct(array: any[]) {
     return array.filter((elem, index, self) => self.indexOf(elem) === index);
   }
 
-  private devideByteam(): Person[][] {
+  private createClusterByteam(): Person[][] {
     const teamList: string[] = this.distinct(
-      this.getActivePersonList().map(p => p.team)
+      this.getActivePersonList().map(person => person.team)
     );
 
-    const devidedPersonList: Person[][] = [];
+    const cluster: Person[][] = [];
     for (let i = 0; i < teamList.length; i++) {
-      devidedPersonList[i] = [];
+      cluster[i] = [];
     }
 
     this.getActivePersonList().forEach(person =>
-      devidedPersonList[teamList.indexOf(person.team)].push(person)
+      cluster[teamList.indexOf(person.team)].push(person)
     );
 
-    return devidedPersonList;
+    return cluster;
   }
 
-  private cutByMinNum(personList: Person[]): Person[] {
-    if (personList.length === this.minNumber) {
-      return personList;
+  private cutClusterByMinNum(cluster: Person[]): Person[] {
+    if (cluster.length === this.minClusterNumber) {
+      return cluster;
     }
 
     const countList: number[] = this.distinct(
-      personList.map(p => p.unmatchedCount)
+      cluster.map(person => person.unmatchedCount)
     );
 
     let result: Person[] = [];
     countList.sort().forEach(c => {
       result.push(
         ...this.shufflePersonList(
-          personList.filter(p => p.unmatchedCount === c)
+          cluster.filter(person => person.unmatchedCount === c)
         )
       );
     });
 
-    if (this.minNumber % 2 === 0) {
-      return result.slice(0, this.minNumber);
+    if (this.minClusterNumber % 2 === 0) {
+      return result.slice(0, this.minClusterNumber);
     } else {
-      return result.slice(0, this.minNumber + 1);
+      return result.slice(0, this.minClusterNumber + 1);
     }
   }
 
@@ -79,8 +79,8 @@ export default class CurrentMatch {
   }
 
   generateGroup(): Group[] {
-    const teamedShuffledPersonList: Person[][] = this.devidedPersonList.map(p =>
-      this.shufflePersonList(this.cutByMinNum(p))
+    const shuffledClusterList: Person[][] = this.clusterList.map(cluster =>
+      this.shufflePersonList(this.cutClusterByMinNum(cluster))
     );
 
     let groupList: Group[] = [];
@@ -88,20 +88,20 @@ export default class CurrentMatch {
     for (let i = 0; ; i++) {
       if (i % 2 === 0) {
         if (
-          teamedShuffledPersonList.some(
-            shuffledPersonList => shuffledPersonList.length <= i
+          shuffledClusterList.some(
+            shuffledCluster => shuffledCluster.length <= i
           )
         ) {
           break;
         }
       } else {
-        teamedShuffledPersonList.map(shuffledPersonList => {
-          if (shuffledPersonList.length <= i) {
-            shuffledPersonList.push(shuffledPersonList[0].copy());
+        shuffledClusterList.map(shuffledCluster => {
+          if (shuffledCluster.length <= i) {
+            shuffledCluster.push(shuffledCluster[0].copy());
           }
         });
         const groupedPersonList = [
-          ...teamedShuffledPersonList.map(shuffledPersonList => [
+          ...shuffledClusterList.map(shuffledPersonList => [
             shuffledPersonList[i],
             shuffledPersonList[i - 1]
           ])

@@ -28,7 +28,7 @@ const pastMatchList1 = [
   )
 ];
 
-test("success", t => {
+test("Generate correct group and score", t => {
   const people = new People(personList1);
   people.setPastMatchDataToPerson(pastMatchList1);
 

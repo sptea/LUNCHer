@@ -1,3 +1,5 @@
+import { Util } from "./util";
+
 export default class PastMatch {
   date;
   teamList: string[][];
@@ -9,13 +11,11 @@ export default class PastMatch {
     unmatchedPersonNameList: string[]
   ) {
     this.date = date;
-    this.teamList = teamList;
-    this.unmatchedPersonNameList = unmatchedPersonNameList.map(u =>
-      this.deleteBlank(u)
+    this.teamList = teamList.map(team =>
+      team.map(name => Util.deleteBlank(name))
     );
-  }
-
-  private deleteBlank(origin: string): string {
-    return origin.replace(/\s+/g, "");
+    this.unmatchedPersonNameList = unmatchedPersonNameList.map(name =>
+      Util.deleteBlank(name)
+    );
   }
 }

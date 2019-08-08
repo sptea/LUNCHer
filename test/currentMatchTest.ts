@@ -26,18 +26,18 @@ people.setPastMatchDataToPerson(pastMatchList1);
 const currentMatch = new CurrentMatch(people);
 
 test("Devided by team correctly", t => {
-  t.snapshot((currentMatch as any).devideByteam());
+  t.snapshot((currentMatch as any).createClusterByteam());
 });
 
 test("Cut by minNum 1", t => {
   const personList = personList1.filter(p => p.isActive && p.team === "営業");
-  const res = (currentMatch as any).cutByMinNum(personList);
+  const res = (currentMatch as any).cutClusterByMinNum(personList);
   t.is(res.length, 4);
 });
 
 test("Cut by minNum 2", t => {
   const personList = personList1.filter(p => p.isActive && p.team === "人事部");
-  t.is((currentMatch as any).cutByMinNum(personList).length, 3);
+  t.is((currentMatch as any).cutClusterByMinNum(personList).length, 3);
 });
 
 test("Create collect number of group", t => {

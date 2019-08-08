@@ -16,4 +16,8 @@ export default class Group {
     });
     return result;
   }
+
+  getPersonNameList() {
+    return this.people.personList.map(person => person.name);
+  }
 }

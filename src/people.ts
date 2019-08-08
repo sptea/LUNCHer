@@ -16,9 +16,9 @@ export default class People {
   getPastMatchedCount(targetPerson: Person): number {
     let count = 0;
 
-    this.personList.forEach(p => {
-      if (!p.compareName(targetPerson.name)) {
-        count += p.getPastMatchedCount(targetPerson);
+    this.personList.forEach(person => {
+      if (!person.compareName(targetPerson.name)) {
+        count += person.getPastMatchedCount(targetPerson);
       }
     });
 
@@ -31,7 +31,7 @@ export default class People {
       match.teamList.forEach((team, index) =>
         team.forEach(personName =>
           personList
-            .filter(p => p.compareName(personName))[0]
+            .filter(person => person.compareName(personName))[0]
             .history.push({ team: index.toString(), date: match.date })
         )
       )
@@ -45,7 +45,7 @@ export default class People {
     pastMatchList.forEach((match, index) => {
       if (index === 0) {
         match.unmatchedPersonNameList.forEach(
-          u => (tempUnmatchCountMap[u] = 1)
+          name => (tempUnmatchCountMap[name] = 1)
         );
       } else {
         Object.keys(tempUnmatchCountMap).forEach(name => {

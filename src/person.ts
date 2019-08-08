@@ -1,4 +1,4 @@
-import { Constants } from "./constants";
+import { Constants, Util } from "./util";
 
 export default class Person {
   name: string;
@@ -8,14 +8,10 @@ export default class Person {
   history: { date: string; team: string }[];
 
   constructor(name: string, participation: string, team: string) {
-    this.name = this.deleteBlank(name);
+    this.name = Util.deleteBlank(name);
     this.participation = participation;
     this.team = team;
     this.history = [];
-  }
-
-  private deleteBlank(origin: string): string {
-    return origin.replace(/\s+/g, "");
   }
 
   getPastMatchedCount(targetPerson: Person): number {
@@ -33,7 +29,7 @@ export default class Person {
   }
 
   compareName(target: string): boolean {
-    return this.name === this.deleteBlank(target);
+    return this.name === Util.deleteBlank(target);
   }
 
   copy(): Person {
