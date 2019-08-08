@@ -1,13 +1,20 @@
 ## Usage
 
+Use [clasp](https://github.com/google/clasp) to deploy.
+
+Set "src" to rootDir in `.clasp.json`.
+
 ```
-clasp login
-clasp push
+{
+    "scriptId": "xxxxxxxxxxxxx",
+    "rootDir": "src"
+}
 ```
 
 ### Sample
 
 - Sample spread sheet
+
 https://docs.google.com/spreadsheets/d/1IfbFolaLzGD9GdlwQWou7ht_C4qTA_WzzS-oxRVMtf8/edit#gid=0
 
 
