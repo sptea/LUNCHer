@@ -2,6 +2,11 @@
 
 Use [clasp](https://github.com/google/clasp) to deploy.
 
+```
+clasp login
+clasp clone [script id]
+```
+
 Set "src" to rootDir in `.clasp.json`.
 
 ```
@@ -11,12 +16,17 @@ Set "src" to rootDir in `.clasp.json`.
 }
 ```
 
+Then, push the script.
+
+```
+clasp push
+```
+
 ### Sample
 
 - Sample spread sheet
 
 https://docs.google.com/spreadsheets/d/1IfbFolaLzGD9GdlwQWou7ht_C4qTA_WzzS-oxRVMtf8/edit#gid=0
-
 
 ## Develop
 
